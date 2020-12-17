@@ -3,6 +3,7 @@ const usersResolvers = require("./users");
 const commentResolvers = require("./comment");
 
 module.exports = {
+  // Modifies all POST types when returned
   Post: {
     likeCount: (parent) => parent.likes.length,
     commentCount: (parent) => parent.comments.length,

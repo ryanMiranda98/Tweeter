@@ -7,6 +7,7 @@ const {
   validateRegisterInput,
   validateLoginInput,
 } = require("../../util/validators");
+const Post = require("../../models/Post");
 
 const generateToken = (user) => {
   return jwt.sign(
@@ -23,6 +24,20 @@ const generateToken = (user) => {
 };
 
 module.exports = {
+  Query: {
+    getUser: async (parent, { username }, context) => {
+      try {
+        const user = await User.findOne({ username });
+        if (user) {
+          return user;
+        } else {
+          throw new Error("User not found");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+  },
   Mutation: {
     login: async (parent, { username, password }, context, info) => {
       const { valid, errors } = validateLoginInput(username, password);
